@@ -9,6 +9,7 @@ import teamsMock from './mocks/teams.mock';
 
 import { Response } from 'superagent';
 import { before, after } from 'node:test';
+import TeamController from '../controllers/team.controllers';
 
 chai.use(chaiHttp);
 
@@ -22,6 +23,7 @@ describe('testando a rota de teams', () => {
 
   after(()=>{
     (TeamModel.findAll as sinon.SinonStub).restore();
+    (TeamModel.findByPk as sinon.SinonStub).restore();
   })
 
   it('se consegue retornar todos os times com o método GET', async () => {
@@ -30,13 +32,21 @@ describe('testando a rota de teams', () => {
        .request(app)
        .get('/teams')
       
-
     expect(chaiHttpResponse.status).to.be.equal(200)
     expect(chaiHttpResponse.body).to.be.deep.equal(teamsMock)
 
   });
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+  it('se consegue retornar um time buscado por id', async () => {
+    sinon.stub(TeamModel, 'findByPk').resolves(teamsMock[0] as unknown as TeamModel)
+    chaiHttpResponse = await chai
+       .request(app)
+       .get('/teams/1')
+      
+    expect(chaiHttpResponse.status).to.be.equal(200)
+    expect(chaiHttpResponse.body).to.be.deep.equal(teamsMock[0])
+
   });
+
+ 
 });
