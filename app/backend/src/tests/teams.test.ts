@@ -10,6 +10,7 @@ import teamsMock from './mocks/teams.mock';
 import { Response } from 'superagent';
 import { before, after } from 'node:test';
 import TeamController from '../controllers/team.controllers';
+import { response } from 'express';
 
 chai.use(chaiHttp);
 
@@ -20,14 +21,14 @@ describe('testando a rota de teams', () => {
    * Exemplo do uso de stubs com tipos
    */
   let chaiHttpResponse: Response;
-
+  const teamController = new TeamController()
   after(()=>{
-    (TeamModel.findAll as sinon.SinonStub).restore();
-    (TeamModel.findByPk as sinon.SinonStub).restore();
+    (teamController.findAll as sinon.SinonStub).restore();
+    (teamController.findById as sinon.SinonStub).restore();
   })
 
   it('se consegue retornar todos os times com o método GET', async () => {
-    sinon.stub(TeamModel, 'findAll').resolves(teamsMock as unknown as TeamModel[])
+    sinon.stub(teamController, 'findAll').resolves(response.status(200).json(teamsMock))
     chaiHttpResponse = await chai
        .request(app)
        .get('/teams')
