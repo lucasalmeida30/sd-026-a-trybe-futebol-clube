@@ -2,11 +2,14 @@ import { Request, Response } from 'express';
 import MatchService from '../services/matches.services';
 
 class MatchController {
-  public static async getAll(_req: Request, res: Response) {
-    const matches = await MatchService.getAll();
-    if (!matches) {
-      return res.status(404).json({ message: 'Not found' });
+  public static async getAll(req: Request, res: Response) {
+    const { inProgress } = req.query;
+    if (inProgress) {
+      const matchesInProgress = await MatchService
+        .getByInProgress(inProgress === 'true');
+      return res.status(200).json(matchesInProgress);
     }
+    const matches = await MatchService.getAll();
     return res.status(200).json(matches);
   }
 }
