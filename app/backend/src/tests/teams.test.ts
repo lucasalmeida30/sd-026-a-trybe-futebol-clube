@@ -9,7 +9,6 @@ import teamsMock from './mocks/teams.mock';
 
 import { Response } from 'superagent';
 import { before, after } from 'node:test';
-import TeamController from '../controllers/team.controllers';
 import { response } from 'express';
 
 chai.use(chaiHttp);
@@ -21,14 +20,12 @@ describe('testando a rota de teams', () => {
    * Exemplo do uso de stubs com tipos
    */
   let chaiHttpResponse: Response;
-  const teamController = new TeamController()
-  after(()=>{
-    (teamController.findAll as sinon.SinonStub).restore();
-    (teamController.findById as sinon.SinonStub).restore();
+  afterEach(()=>{
+    sinon.restore();
   })
 
   it('se consegue retornar todos os times com o método GET', async () => {
-    sinon.stub(teamController, 'findAll').resolves(response.status(200).json(teamsMock))
+    sinon.stub(TeamModel, 'findAll').resolves(teamsMock as TeamModel[])
     chaiHttpResponse = await chai
        .request(app)
        .get('/teams')
@@ -38,14 +35,25 @@ describe('testando a rota de teams', () => {
 
   });
 
-  it('se consegue retornar um time buscado por id', async () => {
-    sinon.stub(TeamModel, 'findByPk').resolves(teamsMock[0] as unknown as TeamModel)
+  it('deve retornar undefined com id invalido', async () => {
+    sinon.stub(TeamModel, 'findByPk').resolves(undefined)
+    chaiHttpResponse = await chai
+       .request(app)
+       .get('/teams/697')
+      
+    expect(chaiHttpResponse.status).to.be.equal(404)
+    expect(chaiHttpResponse.body).to.be.deep.equal('team nao encontrado')
+
+  });
+
+  it('deve retornar status 200 e elemento certo', async () => {
+    sinon.stub(TeamModel, 'findByPk').resolves(teamsMock[1] as TeamModel)
     chaiHttpResponse = await chai
        .request(app)
        .get('/teams/1')
       
     expect(chaiHttpResponse.status).to.be.equal(200)
-    expect(chaiHttpResponse.body).to.be.deep.equal(teamsMock[0])
+    expect(chaiHttpResponse.body).to.be.deep.equal(teamsMock[1])
 
   });
 

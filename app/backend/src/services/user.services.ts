@@ -11,17 +11,11 @@ class UserService {
       where: { email },
     });
 
-    if (!user) {
-      return { type: 'INVALID EMAIL', message: 'All fields must be filled' };
+    if (user && bcrypt.compareSync(password, user.password)) {
+      const token = generateToken(user.dataValues);
+      return { status: 200, message: { token } };
     }
-    const rashIsValid = bcrypt.compareSync(password, user.password);
-
-    if (!rashIsValid) {
-      return { type: 'INVALID PASSWORD', message: 'All fields must be filled' };
-    }
-
-    const token = generateToken(user.dataValues);
-    return { type: null, message: { token } };
+    return { status: 400, message: 'All fields must be filled' };
   }
 }
 
