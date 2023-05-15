@@ -1,7 +1,7 @@
 import bcrypt = require('bcryptjs');
 import User from '../database/models/user';
+import { generateToken } from '../utils/authToken';
 // import IUser from '../interfaces/IUser';
-import generateToken from '../utils/authToken';
 
 class UserService {
   constructor(private _model = User) {}
@@ -17,6 +17,15 @@ class UserService {
     }
     return { status: 401, message: 'Invalid email or password' };
   }
-}
 
+  async getRole(email: string) {
+    const user = await this._model.findOne({
+      where: { email },
+    });
+    if (user) {
+      return { status: 200, message: { role: user.role } };
+    }
+    return { status: 404, message: 'User not found' };
+  }
+}
 export default UserService;

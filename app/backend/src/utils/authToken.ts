@@ -1,4 +1,4 @@
-import { sign, SignOptions } from 'jsonwebtoken';
+import { sign, verify, SignOptions } from 'jsonwebtoken';
 import IUser from '../interfaces/IUser';
 
 const configJWT: SignOptions = {
@@ -12,4 +12,14 @@ const generateToken = (payload: IUser) => {
   return token;
 };
 
-export default generateToken;
+const validateToken = (token: string) => {
+  const erro = new Error('Token not found');
+  if (!token) throw erro;
+  const isValid = verify(token, jwtsecret);
+  if (!isValid) {
+    throw new Error('Token must be a valid token');
+  }
+  return isValid;
+};
+
+export { validateToken, generateToken };
