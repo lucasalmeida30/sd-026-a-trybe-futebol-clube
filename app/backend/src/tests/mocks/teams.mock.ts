@@ -13,4 +13,4 @@ const teamsMock = [
     },
   ]
 
-  export default teamsMock;
+  export { teamsMock }
