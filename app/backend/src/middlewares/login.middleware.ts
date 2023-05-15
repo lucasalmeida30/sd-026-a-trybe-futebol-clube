@@ -5,7 +5,7 @@ const loginValidate = (req: Request, res:Response, next: NextFunction) => {
   const emailValidation = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
   const isValidate = emailValidation.test(email);
 
-  if (!isValidate || password.length < 6) {
+  if (!isValidate || password.length < 7) {
     return res.status(401).json({ message: 'Invalid email or password' });
   }
 

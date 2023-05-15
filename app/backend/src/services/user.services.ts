@@ -15,7 +15,7 @@ class UserService {
       const token = generateToken(user.dataValues);
       return { status: 200, message: { token } };
     }
-    return { status: 400, message: 'All fields must be filled' };
+    return { status: 401, message: 'Invalid email or password' };
   }
 }
 
