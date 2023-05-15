@@ -3,7 +3,7 @@ import db from '.';
 import Team from './team';
 // import OtherModel from './OtherModel';
 
-class Matche extends Model {
+class MatchModel extends Model {
   declare id: number;
   declare homeTeamId: number;
   declare homeTeamGoals: number;
@@ -12,7 +12,7 @@ class Matche extends Model {
   declare inProgress: boolean;
 }
 
-Matche.init({
+MatchModel.init({
   id: {
     type: INTEGER,
     allowNull: false,
@@ -54,12 +54,12 @@ Matche.init({
 
 // OtherModel.belongsTo(Example, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
-Matche.belongsTo(Team, {
+MatchModel.belongsTo(Team, {
   foreignKey: 'homeTeamId',
   as: 'homeTeam',
 });
 
-Matche.belongsTo(Team, {
+MatchModel.belongsTo(Team, {
   foreignKey: 'awayTeamId',
   as: 'awayTeam',
 });
@@ -67,4 +67,4 @@ Matche.belongsTo(Team, {
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-export default Matche;
+export default MatchModel;
