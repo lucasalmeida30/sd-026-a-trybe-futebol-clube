@@ -52,5 +52,12 @@ class MatchService {
     );
     return { type: null, message: 'Finished' };
   }
+
+  public static async updateMatches(id: number, homeTeamGoals: number, awayTeamGoals: number) {
+    const match = await MatchModel.findByPk(id);
+    await match?.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    match?.save();
+    return { type: null, message: 'Update sucess' };
+  }
 }
 export default MatchService;

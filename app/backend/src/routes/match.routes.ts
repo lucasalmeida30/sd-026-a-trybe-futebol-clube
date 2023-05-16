@@ -8,4 +8,6 @@ matchRouter.get('/', MatchController.getAll);
 
 matchRouter.patch('/:id/finish', validateTokenMiddleware, MatchController.changeMatch);
 
+matchRouter.patch('/:id', validateTokenMiddleware, MatchController.updateMatches);
+
 export default matchRouter;
