@@ -10,4 +10,6 @@ matchRouter.patch('/:id/finish', validateTokenMiddleware, MatchController.change
 
 matchRouter.patch('/:id', validateTokenMiddleware, MatchController.updateMatches);
 
+matchRouter.post('/', validateTokenMiddleware, MatchController.insertMatch);
+
 export default matchRouter;

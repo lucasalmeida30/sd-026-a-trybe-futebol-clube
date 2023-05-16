@@ -28,6 +28,14 @@ class MatchController {
     const match = await MatchService.updateMatches(+id, homeTeamGoals, awayTeamGoals);
     return res.status(200).json({ message: match.message });
   }
+
+  public static async insertMatch(req: Request, res: Response) {
+    const match = await MatchService.insertMatch(req.body);
+    if (!match) {
+      return res.status(401).json({ message: 'Match invalido' });
+    }
+    return res.status(match.status).json(match.message);
+  }
 }
 
 export default MatchController;
