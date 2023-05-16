@@ -12,6 +12,15 @@ class MatchController {
     const matches = await MatchService.getAll();
     return res.status(200).json(matches);
   }
+
+  public static async changeMatch(req: Request, res: Response) {
+    const { id } = req.params;
+    const match = await MatchService.changeMatch(+id);
+    if (!match) {
+      return res.status(404).json({ message: '"Id" Not found' });
+    }
+    return res.status(200).json({ message: match.message });
+  }
 }
 
 export default MatchController;

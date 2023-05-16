@@ -39,6 +39,18 @@ class MatchService {
     });
     return matches;
   }
-}
 
+  public static async changeMatch(id: number) {
+    const match = await MatchModel.findByPk(id);
+    await match?.update(
+      {
+        inProgress: false,
+      },
+      {
+        where: { id },
+      },
+    );
+    return { type: null, message: 'Finished' };
+  }
+}
 export default MatchService;
