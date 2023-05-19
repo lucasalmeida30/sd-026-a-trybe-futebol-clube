@@ -65,9 +65,9 @@ class MatchService {
     const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = match;
     const newMatch = await MatchModel
       .create({ homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals, inProgress: 1 });
-    if (!newMatch) return { status: 401, message: 'Match invalido' };
+    // if (!newMatch) return { status: 401, message: 'Match invalido' };
     const matchById = await MatchModel.findByPk(newMatch.id);
-    if (!matchById) return { status: 404, message: 'Match nao encontrado' };
+    // if (!matchById) return { status: 404, message: 'Match nao encontrado' };
     return { status: 201, message: matchById };
   }
 }

@@ -82,8 +82,8 @@ describe('testando a rota de matches', () => {
   it('se é possivel adicionar uma nova partida', async () => {
     sinon.stub(jwt, 'verify').resolves({ email: 'admin@admin.com', password: 'secret_admin' });
     sinon.stub(TeamModel, 'findByPk')
-    .onCall(0).resolves({ id: 3, teamName: 'Botafogo'} as any)
-    .onCall(1).resolves({ id: 1, teamName: 'Palmeiras'} as any)
+    .onCall(0).resolves({ id: 1, teamName: 'Botafogo'} as any)
+    .onCall(1).resolves({ id: 9, teamName: 'Palmeiras'} as any)
 
     const response = await chai
        .request(app)

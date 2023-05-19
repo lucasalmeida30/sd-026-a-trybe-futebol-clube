@@ -30,6 +30,17 @@ describe('testando a rota de teams', () => {
 
   });
 
+  it('se retorna vazio se tiver algum erro', async () => {
+    sinon.stub(TeamModel, 'findAll').resolves([])
+    const response = await chai
+       .request(app)
+       .get('/teams')
+      
+    expect(response.status).to.be.equal(404)
+    expect(response.body).to.be.deep.equal({ message: 'teams nao encontrado'})
+
+  });
+
   it('deve retornar undefined com id invalido', async () => {
     sinon.stub(TeamModel, 'findByPk').resolves(undefined)
     const response = await chai
@@ -37,7 +48,7 @@ describe('testando a rota de teams', () => {
        .get('/teams/697')
       
     expect(response.status).to.be.equal(404)
-    expect(response.body).to.be.deep.equal('team nao encontrado')
+    expect(response.body).to.be.deep.equal({ message: 'teams nao encontrado' })
 
   });
 
