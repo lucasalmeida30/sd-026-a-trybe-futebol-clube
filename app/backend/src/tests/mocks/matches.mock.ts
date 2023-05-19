@@ -49,6 +49,17 @@ const matchesFinished = [
         inProgress: false,
       }
 ]
+const newMatch = [
+{
+  id: 10,
+  homeTeam: 11,
+  awayTeam: 4,
+  homeTeamGoals: 4,
+  awayTeamGoals: 0,
+  inProgress: true
+}
+]
+
   
 
-  export { matchesMock, matchesInProgress, matchesFinished }
+  export { matchesMock, matchesInProgress, matchesFinished, newMatch }

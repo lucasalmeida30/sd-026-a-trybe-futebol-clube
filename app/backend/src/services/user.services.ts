@@ -25,7 +25,6 @@ class UserService {
     if (user) {
       return { status: 200, message: { role: user.role } };
     }
-    return { status: 404, message: 'User not found' };
   }
 }
 export default UserService;
